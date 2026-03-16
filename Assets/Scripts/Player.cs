@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(laserPrefab,transform.position + new Vector3(0, 0.88f,0),Quaternion.identity);
         }
-
+        
 
     }
 
