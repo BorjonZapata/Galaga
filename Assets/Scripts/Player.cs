@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject laserPrefab;
+    [SerializeField]
+    private float  _fireRate =  0.25f; 
+    
+    private float _canFire = 0.00f; 
+    
+    [SerializeField]
+    private GameObject laserPrefab;
 
     [SerializeField]
-    public float speed = 5.0f;
+    public float _speed = 5.0f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,20 +25,28 @@ public class Player : MonoBehaviour
     void Update()
     {
         movement();
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
+        {
+            shoot();   
+        }
+    }
+
+
+    private void shoot()
+    {
+        if(Time.time > _canFire)
         {
             Instantiate(laserPrefab,transform.position + new Vector3(0, 0.88f,0),Quaternion.identity);
+            _canFire = Time.time + _fireRate;
         }
-        
-
     }
 
     private void movement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * speed * horizontalInput * Time.deltaTime);
+        transform.Translate(Vector3.right * _speed * horizontalInput * Time.deltaTime);
         float verticalInput = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.up * speed * verticalInput * Time.deltaTime);
+        transform.Translate(Vector3.up * _speed * verticalInput * Time.deltaTime);
 
 
         //Limitar los margenes de la nave
